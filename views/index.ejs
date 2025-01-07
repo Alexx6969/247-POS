@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24/7 Supermarket POS System</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light gray text for readability */
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #1c1c1c; /* Darker background for header */
+            color: #f58220; /* Logo-inspired orange */
+            padding: 20px 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        header img {
+            height: 70px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #212121; /* Slightly lighter dark background */
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #e0e0e0; /* Light text */
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #f58220; /* Orange highlight on hover */
+        }
+
+        /* Main Container */
+        .container {
+            margin: 50px auto;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .container h1 {
+            font-size: 2.5rem;
+            color: #00a859; /* Logo-inspired green */
+            margin-bottom: 20px;
+        }
+
+        .container p {
+            font-size: 1.2rem;
+            color: #f58220; /* Orange text for accents */
+            margin-bottom: 30px;
+        }
+
+        /* Cards */
+        .card {
+            background-color: #212121; /* Darker background for cards */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin: 20px auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            color: #00a859; /* Green for card titles */
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            color: #e0e0e0; /* Light gray text */
+            margin-bottom: 20px;
+        }
+
+        .card button {
+            background: #f58220; /* Orange button */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .card button:hover {
+            background: #d94e1f; /* Darker orange */
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            padding: 15px 0;
+            background-color: #1c1c1c; /* Dark footer */
+            color: #e0e0e0;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                font-size: 2rem;
+            }
+
+            nav a {
+                font-size: 1rem;
+            }
+
+            .container h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        24/7 Supermarket POS System
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>Welcome to the 24/7 Supermarket POS System</h1>
+        <p>Manage 24/7! Work Harder!</p>
+        <div class="card">
+            <h2>Get Started</h2>
+            <p>Start managing your store with the POS system.</p>
+            <button onclick="window.location.href='/employee-dashboard'">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 24/7 Supermarket. All Rights Reserved.
+    </footer>
+</body>
+</html>

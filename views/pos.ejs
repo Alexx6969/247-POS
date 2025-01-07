@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Cash Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+        }
+
+        header {
+            background-color: #1c1c1c;
+            color: #f58220;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .products, .cart {
+            background-color: #1c1c1c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .products {
+            flex: 1;
+        }
+
+        .cart {
+            flex: 0.5;
+        }
+
+        h2 {
+            color: #f58220;
+            border-bottom: 2px solid #f58220;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f58220;
+            color: #121212;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #f58220;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background-color: #d94e1f;
+        }
+
+        .cart-summary {
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .cart-summary p {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .discount-section {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .discount-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .coupon-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .checkout-btn {
+            margin-top: 20px;
+            padding: 15px;
+            width: 100%;
+            background-color: #f58220;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .checkout-btn:hover {
+            background-color: #d94e1f;
+        }
+
+        .custom-item {
+            margin-top: 20px;
+        }
+
+        .custom-item input {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>POS Cash Register</header>
+    <div class="container">
+        <!-- Products Section -->
+        <div class="products">
+            <h2>Products</h2>
+            <input type="text" id="searchBar" placeholder="Search products..." oninput="searchProducts()">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Add</th>
+                    </tr>
+                </thead>
+                <tbody id="productList">
+                    <% products.forEach(product => { %>
+                        <tr data-name="<%= product.name.toLowerCase() %>">
+                            <td><%= product.name %></td>
+                            <td>$<%= product.price.toFixed(2) %></td>
+                            <td>
+                                <button onclick="addToCart('<%= product.id %>', '<%= product.name %>', <%= product.price %>)">Add</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <!-- Add Custom Item Section -->
+            <div class="custom-item">
+                <h3>Add Custom Item</h3>
+                <input type="text" id="customItemName" placeholder="Custom Item Name">
+                <input type="number" id="customItemPrice" placeholder="Custom Item Price">
+                <button onclick="addCustomItem()">Add Custom Item</button>
+            </div>
+        </div>
+
+        <!-- Cart Section -->
+        <div class="cart">
+            <h2>Cart</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="cartBody"></tbody>
+            </table>
+            <div class="cart-summary">
+                <p><strong>Subtotal:</strong> $<span id="subtotal">0.00</span></p>
+                <p><strong>Tax (10%):</strong> $<span id="tax">0.00</span></p>
+                <p><strong>Total:</strong> $<span id="total">0.00</span></p>
+            </div>
+
+            <!-- Discount Buttons -->
+            <div class="discount-section">
+                <div class="discount-buttons">
+                    <button onclick="applyDiscount(25)">Family & Friends - 25%</button>
+                    <button onclick="applyDiscount(15)">Employee - 15%</button>
+                    <button onclick="applyDiscount(10)">Seasonal Sale - 10%</button>
+                </div>
+                <div class="coupon-input">
+                    <input type="text" id="customCoupon" placeholder="Custom Discount (%)">
+                    <button onclick="applyCustomDiscount()">Apply</button>
+                </div>
+            </div>
+
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        const cart = {};
+        const taxRate = 0.1;
+
+        function searchProducts() {
+            const query = document.getElementById('searchBar').value.toLowerCase();
+            const rows = document.querySelectorAll('#productList tr');
+            rows.forEach(row => {
+                row.style.display = row.getAttribute('data-name').includes(query) ? '' : 'none';
+            });
+        }
+
+        function addToCart(id, name, price) {
+            if (!cart[id]) {
+                cart[id] = { name, price, qty: 0 };
+            }
+            cart[id].qty++;
+            updateCart();
+        }
+
+        function addCustomItem() {
+            const name = document.getElementById('customItemName').value.trim();
+            const price = parseFloat(document.getElementById('customItemPrice').value);
+            if (name && !isNaN(price) && price > 0) {
+                const customId = `custom-${Date.now()}`; // Unique ID
+                addToCart(customId, name, price);
+                document.getElementById('customItemName').value = '';
+                document.getElementById('customItemPrice').value = '';
+            } else {
+                alert('Please enter a valid name and price.');
+            }
+        }
+
+        function removeFromCart(id) {
+            delete cart[id];
+            updateCart();
+        }
+
+        function updateCart() {
+            const tbody = document.getElementById('cartBody');
+            tbody.innerHTML = '';
+            let subtotal = 0;
+
+            Object.entries(cart).forEach(([id, item]) => {
+                const itemTotal = item.price * item.qty;
+                subtotal += itemTotal;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.qty}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>$${itemTotal.toFixed(2)}</td>
+                        <td>
+                            <button onclick="removeFromCart('${id}')">Remove</button>
+                        </td>
+                    </tr>`;
+            });
+
+            const tax = subtotal * taxRate;
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('tax').textContent = tax.toFixed(2);
+            document.getElementById('total').textContent = total.toFixed(2);
+        }
+
+        function applyDiscount(discount) {
+            Object.values(cart).forEach(item => {
+                item.price = item.price - (item.price * discount / 100);
+            });
+            updateCart();
+        }
+
+        function applyCustomDiscount() {
+            const customDiscount = parseFloat(document.getElementById('customCoupon').value);
+            if (!isNaN(customDiscount) && customDiscount > 0) {
+                applyDiscount(customDiscount);
+            }
+        }
+
+        function checkout() {
+            if (Object.keys(cart).length === 0) {
+                alert('Cart is empty!');
+                return;
+            }
+
+            alert('Checkout successful!');
+            Object.keys(cart).forEach(key => delete cart[key]);
+            updateCart();
+        }
+    </script>
+</body>
+</html>
